@@ -84,7 +84,7 @@ public class RemoveDefUseChain implements Filter{
 			if(biLineNum>=startLine&&biLineNum<=endLine){
 				if( md.getBody()!=null){
 					for(Object st: md.getBody().statements()){
-						//ADD assignemnt statmentss  ,
+						//ADD assignemnt statments  ,
 						if(((Statement)st).getNodeType()==ASTNode.VARIABLE_DECLARATION_STATEMENT) {
 							VariableDeclarationStatement varDecStmt= (VariableDeclarationStatement) st;
 							List<VariableDeclarationFragment> varDecFragList= varDecStmt.fragments();
@@ -98,9 +98,9 @@ public class RemoveDefUseChain implements Filter{
 						}
 					}
 					boolean isVariableDeclaration=false;
+					// CASE1: check whether the bi line is the variable declaration
 					for(String vdfName:varDecMap.keySet()){
 						if(biWholeCodeAST.getCompilationUnit().getLineNumber(varDecMap.get(vdfName).getStartPosition())==biLineNum){
-							// CASE1: the bi line is the variable declaration
 							if(varDecMap.get(vdfName).getInitializer()!=null){
 								String initializer=varDecMap.get(vdfName).getInitializer().toString();
 								String initializer2=null;
@@ -141,7 +141,7 @@ public class RemoveDefUseChain implements Filter{
 						}
 							
 					}
-					//CASE 2: the bi line is the variable using statement
+					//CASE 2: check whether the bi line is the variable using statement
 					if(!isVariableDeclaration){ 
 						stmt=biChange.getLine();
 						for(String vdfName:varDecMap.keySet()){
